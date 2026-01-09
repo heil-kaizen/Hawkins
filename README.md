@@ -74,7 +74,7 @@ Choose one class at the start. Each class follows **unique story arcs** and endi
 * Status effects and disruption
 * Story focuses on knowledge and sacrifice
 
-### 🗡 Rogue
+###  Rogue
 
 * Stealth, evasion, critical strikes
 * Trap and escape mechanics
