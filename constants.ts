@@ -225,7 +225,7 @@ export const WORLD_MAP: Record<string, Location> = {
   'town_square': {
     id: 'town_square',
     name: 'Town Center (Safe Zone)',
-    description: "You stand in the Town Center. The streetlights buzz softly. It's safe here.",
+    description: "Welcome to Hawkins the town where nothing ever happens. You stand in the Town Center. The streetlights buzz softly. It's safe here.",
     shortDescription: "Town Center.",
     exits: { 'north': 'hawkins_high', 'east': 'arcade', 'west': 'scrap_yard', 'south': 'quarry_edge' },
     triggers: (player) => {
