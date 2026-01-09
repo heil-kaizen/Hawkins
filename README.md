@@ -1,6 +1,5 @@
 
-Below is a **clean, GitHub-ready README** you can paste directly into your repo.
-It is written for a **working terminal-based game**, not a demo.
+
 
 ---
 
