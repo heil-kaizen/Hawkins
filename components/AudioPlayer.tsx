@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { AUDIO_TRACKS, LANDING_AUDIO_URL } from '../constants';
+import { AUDIO_TRACKS } from '../constants';
 import { GameStatus } from '../types';
 
 interface AudioPlayerProps {
@@ -11,46 +11,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({ status }) => {
   const [trackIndex, setTrackIndex] = useState(0);
   const [muted, setMuted] = useState(false);
   
-  const landingRef = useRef<HTMLAudioElement>(null);
   const terminalRef = useRef<HTMLAudioElement>(null);
-
-  // --- LANDING AUDIO LOGIC (Strictly for GameStatus.OFF) ---
-  useEffect(() => {
-    const landing = landingRef.current;
-    if (!landing) return;
-
-    if (status === GameStatus.OFF) {
-      landing.volume = 0.6;
-      const playPromise = landing.play();
-      
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // Autoplay was prevented.
-          // Add a one-time listener to start audio on interaction if we are still on the landing screen.
-          const handleInteraction = () => {
-             // We just try to play. If the user has already clicked "Power On" and changed state,
-             // the cleanup/next-effect will handle pausing it immediately.
-             landing.play().catch(() => {});
-          };
-
-          document.addEventListener('click', handleInteraction, { once: true });
-          document.addEventListener('keydown', handleInteraction, { once: true });
-        });
-      }
-    } else {
-      // If NOT in OFF state, strictly stop the landing audio.
-      landing.pause();
-      landing.currentTime = 0;
-    }
-
-    // Cleanup to ensure it stops if component unmounts or state changes
-    return () => {
-       if (status !== GameStatus.OFF) {
-         landing.pause();
-         landing.currentTime = 0;
-       }
-    };
-  }, [status]);
 
   // --- TERMINAL AUDIO LOGIC (For In-Game) ---
   useEffect(() => {
@@ -97,15 +58,6 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({ status }) => {
 
   return (
     <div className="fixed top-4 right-4 z-50 flex flex-col items-end gap-2 pointer-events-auto">
-        {/* Landing Audio (TV Static) - Loop */}
-        <audio 
-            ref={landingRef} 
-            src={LANDING_AUDIO_URL} 
-            loop 
-            preload="auto"
-            muted={muted}
-        />
-        
         {/* Terminal Audio (Music) - Playlist */}
         <audio 
             ref={terminalRef}
