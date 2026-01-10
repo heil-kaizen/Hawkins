@@ -112,7 +112,7 @@ function App() {
             muted
             playsInline
             preload="auto"
-            className={`w-full h-full object-cover opacity-60 ${!hasEntered ? 'hidden' : 'block'}`}
+            className="w-full h-full object-cover opacity-60"
          />
          {/* Dark Overlay to prevent distraction */}
          <div className="absolute inset-0 bg-black/70"></div>
