@@ -1,13 +1,25 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typewriter } from './Typewriter';
 
 interface EntryScreenProps {
   onEnter: () => void;
+  isReady: boolean;
 }
 
-export const EntryScreen: React.FC<EntryScreenProps> = ({ onEnter }) => {
-  const [showButton, setShowButton] = useState(false);
+export const EntryScreen: React.FC<EntryScreenProps> = ({ onEnter, isReady }) => {
+  const [typewriterDone, setTypewriterDone] = useState(false);
+
+  // Allow Enter key interaction
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter' && typewriterDone && isReady) {
+        onEnter();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [typewriterDone, isReady, onEnter]);
 
   return (
     <div className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center overflow-hidden">
@@ -24,22 +36,20 @@ export const EntryScreen: React.FC<EntryScreenProps> = ({ onEnter }) => {
       {/* Main Container */}
       <div className="relative z-10 flex flex-col items-center gap-6 p-6 max-w-3xl w-full text-center">
         
-        {/* Warning Box - Made less visible (lower opacity) and smaller padding */}
+        {/* Warning Box */}
         <div className="bg-black/40 border-l-2 border-r-2 border-green-600/70 p-6 md:p-8 backdrop-blur-sm w-full shadow-lg">
-          {/* Text Size Reduced */}
           <div className="font-mono text-lg md:text-2xl text-green-500 font-bold tracking-wider min-h-[3rem] flex items-center justify-center shadow-green-500/30 drop-shadow-md">
-             {/* Text with Glow Effect */}
             <Typewriter 
               text="[ system warning: Anomaly detected - location: Hawkins ]" 
               speed={40}
-              onComplete={() => setShowButton(true)}
+              onComplete={() => setTypewriterDone(true)}
               textColor="text-green-500 crt-glow"
             />
           </div>
         </div>
 
-        {/* Enter Button */}
-        <div className={`transition-all duration-1000 transform ${showButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+        {/* Enter Button - Only shows when typewriter is done AND media is ready */}
+        <div className={`transition-all duration-1000 transform ${typewriterDone && isReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
           <button
             onClick={onEnter}
             className="group relative px-10 py-4 bg-transparent overflow-hidden focus:outline-none"
@@ -53,6 +63,13 @@ export const EntryScreen: React.FC<EntryScreenProps> = ({ onEnter }) => {
             </span>
           </button>
         </div>
+        
+        {/* Loading Indicator (Optional but helpful during buffering) */}
+        {typewriterDone && !isReady && (
+           <div className="text-green-800 font-mono text-sm animate-pulse mt-4">
+              BUFFERING SIGNAL...
+           </div>
+        )}
 
       </div>
     </div>
