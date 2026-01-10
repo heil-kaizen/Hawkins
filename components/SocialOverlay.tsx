@@ -58,7 +58,7 @@ export const SocialOverlay: React.FC = () => {
 
       {/* Twitter / X Button */}
       <a 
-        href="https://x.com/home" 
+        href="https://x.com/HawkinsTerminal" 
         target="_blank" 
         rel="noopener noreferrer"
         className={`${buttonBaseClass} w-12 h-12 text-white font-bold text-xl`}
