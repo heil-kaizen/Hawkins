@@ -6,7 +6,7 @@ export const SocialOverlay: React.FC = () => {
   
   // Update this string with the actual Contract Address later.
   // The logic supports both long sentences (words) and long strings (chars).
-  const caValue = "FatFo9SkZz8KJTUJJy1PtKJirgEZnxEWWC92Tniqpump"; 
+  const caValue = "SOON"; 
 
   const getTruncated = (str: string) => {
     // If it's a long sentence (multiple words)
